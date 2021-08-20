@@ -1,0 +1,103 @@
+<div class="cart">
+    <div class="confirm-form"
+        style="display: flex; flex-direction: column; max-width: 500px; min-height:90vh; margin: 0 auto;padding: 200px 20px 5px 20px; background-color: #fff;">
+        <h3>Thông tin</h3>
+        <input type="text" id="name" autocomplete="off" placeholder="Họ tên" style=" line-height: 1.8; margin: 5px 0;">
+        <input type="text" id="location" autocomplete="off" placeholder="Địa chỉ"
+            style=" line-height: 1.8; margin: 5px 0;">
+        <input type="text" id="phone" autocomplete="off" placeholder="Số điện thoại"
+            style=" line-height: 1.8; margin: 5px 0;">
+        <h3>Giỏ hàng</h3>
+        <div id="list"></div>
+        <p style="margin-top: 20px;">Thành tiền: <span style="color: red;" id="order-price"></span></p>
+        <button class="btn-order" style="width: 100%;">đặt hàng</button>
+    </div>
+</div>
+
+
+<script>
+    const orderList = document.querySelector('#list');
+    const orderPrice = document.querySelector('#order-price');
+    const order = document.querySelector('.btn-order');
+
+    var cart = JSON.parse(localStorage.getItem('cart'));
+    var list = [];
+    var total = 0;
+    cart.forEach((item) => {
+        total += +item.price;
+        list.push(`<p style="position: relative; line-height: 2;"><span id="order-list">${item.name} </span><span class="price">${item.price}đ</span>
+        <input food-name="${item.name}" id="${item._id}" food-price="${item.price}" class="quantity" type="number" min="1" value="1"
+        style="width: 50px; display: inline-block; text-align: center; margin-left: 10px; position: absolute; right: 0;" />
+        <button class="delete" style="position: absolute; right: -30px; color: red; font-weight: 600;line-height: 1.5;width: 25px;font-size: 18px;">x</button></p>`);
+    })
+    if(list.length>0)
+    orderList.innerHTML = list.join("");
+    else orderList.innerHTML = "chưa có sản phẩm nào trong giỏ hàng";
+    var quantity = document.querySelectorAll('.quantity');
+        console.log(quantity)
+
+    const dl = document.querySelectorAll('.delete');
+
+    orderPrice.textContent = total;
+
+    function getTotal(){
+        total = 0;
+            quantity.forEach((item) => {
+                total += item.value * item.getAttribute('food-price');
+        })
+        return total;
+    }
+
+    function updateLocalStorage(){
+        let dt = [];
+        quantity.forEach((item) => {
+                dt.push({_id: item.id, name: item.getAttribute('food-name'),price: item.getAttribute('food-price')})
+        });
+        localStorage.setItem('cart', JSON.stringify(dt));
+    }
+
+    quantity.forEach((element) => {
+        element.onchange = function () {
+            orderPrice.textContent = getTotal();
+        }
+    })
+
+    dl.forEach((element)=>{
+        element.onclick = function () {
+               
+            element.parentElement.remove();
+            quantity = document.querySelectorAll('.quantity');
+            orderPrice.textContent = getTotal();
+         console.log(quantity)
+            updateLocalStorage();
+        }
+    })
+
+    order.onclick = function () {
+        let name = document.querySelector('#name').value;
+        let phone = document.querySelector('#phone').value;
+        let location = document.querySelector('#location').value;
+        let orders = [];
+        
+        quantity.forEach((element) => {
+            orders.push(`${element.id}:${element.value}`)
+        })
+
+        orders = orders.join();
+        console.log(orders);
+        fetch('/bill/add', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, phone, orders, location })
+        })
+            .then(() => {
+                alert('đặt hàng thành công');
+                localStorage.clear();
+            })
+    }
+
+
+
+</script>

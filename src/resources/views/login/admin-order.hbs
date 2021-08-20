@@ -1,0 +1,61 @@
+<style>
+    .header-menu {
+        display: none;
+    }
+
+    .footer {
+        display: none;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+    }
+
+    .td-orders{
+        width: 10%;
+    }
+</style>
+<div class="wrapper">
+    <div class="containerAdmin">
+        <div class="admin">
+            <p>username: <span>abc</span></p>
+            <a href="/admin/logout" id="logout">Đăng xuất</a>
+        </div>
+        <div class="manager-list">
+            <a href="/admin" class="manager-item">Quản lý mặt hàng</a>
+            <a href="/admin/order" class="manager-item">Quản lý đơn hàng</a>
+        </div>
+    </div>
+    <h2>Danh sách đơn hàng</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>STT</td>
+                <td>Khách hàng</td>
+                <td>hàng đặt</td>
+                <td>Thành tiền</td>
+                <td>Địa điểm</td>
+                <td>thời gian đặt</td>
+                <td>tình trạng</td>
+                <td>tùy chỉnh</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr>
+                <td>{{index @index}}</td>
+                <td>{{this.name}}</td>
+                <td class="td-orders">{{this.orders}}</td>
+                <td class="price">{{this.total}}</td>
+                <td>{{this.location}}</td>
+                <td>{{this.time}}</td>
+                <td class="txt-green">đã giao</td>
+                <td><button class="btn btn-red">Hủy</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

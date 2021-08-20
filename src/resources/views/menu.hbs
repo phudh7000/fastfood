@@ -1,0 +1,429 @@
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    a,
+    h1,
+    p,
+    span {
+        font-family: 'MyriadPro', sans-serif !important;
+    }
+
+    a {
+        text-decoration: none;
+        color: unset;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .container {
+        max-width: 1170px;
+        margin: 0 auto;
+    }
+
+
+    img {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .header {
+        position: relative;
+    }
+
+    #background-image {
+        width: 100%;
+        height: 100vh;
+        background-image: url('https://theweeklytrends.com/wp-content/uploads/2020/07/Things-You-Need-To-Know-About-Storing-of-Fruits-and-Vegetables.jpg');
+        position: fixed;
+        z-index: -1;
+    }
+
+
+    .header-menu {
+        position: sticky;
+        z-index: 1;
+        top: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        transition-duration: .3s;
+    }
+
+    .header-menu .container {
+        padding: 0 1rem;
+    }
+
+    .navbar {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .logo {
+        width: 70px;
+        border-radius: 50%;
+        overflow: hidden;
+        text-align: center;
+        align-items: center;
+    }
+
+    .logo img {
+        width: 70px;
+    }
+
+    .navbar-items {
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    .navbar-item {
+        margin: 25px 10px;
+    }
+
+    .navbar-item a {
+        text-decoration: none;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .navbar-item a:hover {
+        color: gold;
+    }
+
+    .header-text {
+        color: #fff;
+        position: absolute;
+        top: 30%;
+        padding: 0 2rem;
+        box-sizing: border-box;
+        text-align: center;
+        width: 100%;
+    }
+
+    .header-text .container {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        border-radius: 1rem;
+    }
+
+    .header-text button {
+        background-color: rgba(0, 0, 0, .9);
+        border: none;
+        outline: none;
+        margin-top: 15px;
+    }
+
+    .header-text button a {
+        text-decoration: none;
+        color: #fff;
+        padding: 15px;
+        display: block;
+        font-size: 18px;
+    }
+
+    .header-text button:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .header-text button:hover a {
+        color: gold;
+    }
+
+    /* BODY */
+
+    .main {
+        display: flex;
+        padding: 50px;
+        background-color: #fff;
+    }
+
+
+    /* side bars */
+
+    .side-bars {
+        /* width: 30%; */
+    }
+
+    .side-bars .menu {
+        box-shadow: 0px 1px 3px 0px #333;
+        margin: 5px;
+    }
+
+    .side-bars .menu-link {
+        text-decoration: none;
+        padding: 1rem;
+        display: block;
+        font-size: 18px;
+        color: #333;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .side-bars .menu-link:hover {
+        color: orange;
+    }
+
+    .side-bars .active {
+        color: orange;
+    }
+
+
+
+    /* Body content */
+
+
+    .body-content {
+        /* width: 70%; */
+    }
+
+    .food-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .food-item {
+        position: relative;
+        z-index: 0;
+        width: 30%;
+        padding: 5px;
+        box-shadow: 0 0 1px 0 #333;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .food-content {
+        margin-top: 5px;
+    }
+
+    .food-img {
+        width: 100%;
+    }
+
+    .food-name,
+    .food-price {
+        font-weight: 600;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .food-price {
+        color: orangered;
+        padding: 5px 0;
+    }
+
+    .food-text {
+        font-weight: 600;
+        color: #333;
+        font-size: 12px;
+    }
+
+    /*pages*/
+
+    .pages {
+        margin: 0 auto;
+        width: max-content;
+        display: flex;
+    }
+
+    .pages_link {
+        padding: 5px;
+        width: 15px;
+        height: 15px;
+        margin: 5px;
+        text-align: center;
+        border: 1px solid #333;
+        border-radius: 50%;
+        display: block;
+    }
+
+    .pages_link:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+
+    @media screen and (max-width: 900px) {
+        .main {
+            flex-direction: column;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .food-item {
+            width: 45%;
+        }
+    }
+</style>
+
+<div id="cover" class="hidden"
+    style="position: fixed; z-index: 5; top: 0; bottom: 0; left: 0; right: 0; background-color: rgba(0, 0, 0, 0.5);">
+</div>
+<div id="form"></div>
+<div class="main">
+    <div class="side-bars">
+        <ul class="menus">
+            <li class="menu">
+                <a href="/menu/ga-ran-quay" class="menu-link">Gà Rán-Quay</a>
+            </li>
+            <li class="menu">
+                <a href="/menu/com-burger" class="menu-link">Cơm-Burger</a>
+            </li>
+            <li class="menu">
+                <a href="/menu/thuc-an-nhe" class="menu-link">Thức Ăn Nhẹ</a>
+            </li>
+            <li class="menu">
+                <a href="/menu/trang-mieng-thuc-uong" class="menu-link">Tráng Miệng-Thức Uống</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu-content">
+
+
+        {{!-- <h1>Gà Rán-Quay</h1> --}}
+        <ul class="food-list">
+            {{#each data}}
+            <li class="food-item">
+                <div class="food-info">
+                    <img src="{{this.image}}" alt="" class="food-img">
+                    <div class="food-content">
+                        <p class="food-name">{{this.name}}</p>
+                        <p class="food-price">
+                            {{this.price}}đ
+                        </p>
+                        <span class="food-text">
+                            {{this.description}}
+                        </span>
+                    </div>
+                    <div class="flex" style="position: absolute; top:0; width: 100%;">
+                        <button class="btn-order order-now" food-id="{{this._id}}" food-price="{{this.price}}"
+                            food-name="{{this.name}}">đặt ngay</button>
+                        <button class="btn-order add-to-cart" food-id="{{this._id}}" food-price="{{this.price}}"
+                            food-name="{{this.name}}"><i class="fas fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</div>
+
+<div class="pages">
+    {{#each pages}}
+    <a href={{this}} class="pages_link">{{this}}</a>
+    {{/each}}
+</div>
+
+<script>
+    var url = '{{url}}';
+    console.log(url);
+    var links = document.querySelectorAll('.menu a');
+    links.forEach((item) => {
+        if (item.getAttribute('href') == url) {
+            item.classList.add('active')
+        }
+    })
+
+
+    var orderNow = document.querySelectorAll('.order-now');
+    var addToCart = document.querySelectorAll('.add-to-cart');
+    var cover = document.querySelector('#cover');
+    var form = document.querySelector('#form');
+
+    async function buy(product) {
+        cover.classList.toggle('hidden');
+
+        form.innerHTML =
+            `<form action="/menu">
+                    <div class="confirm-form" style="display: flex; flex-direction: column; width: 450px; padding: 30px 20px 5px 20px; position: fixed; z-index: 5; top: 50%; left: 50%; transform: translate(-50%,-50%); background-color: #fff;">
+                    <button id = "confirm-close" style="width: 20px; position: absolute; right: 5px; top: 5px;">x</button>
+                    <input type="text" id = "name" required minlength="8" autocomplete="off" placeholder="Họ tên" style=" line-height: 1.8; margin: 5px 0;">
+                    <input type="text" id = "location" required minlength="8" autocomplete="off" placeholder="Địa chỉ" style=" line-height: 1.8; margin: 5px 0;">
+                    <input type="text" id = "phone" required minlength="8" autocomplete="off" placeholder="Số điện thoại" style=" line-height: 1.8; margin: 5px 0;">
+                    <p><span id="order-list"></span><input class="quantity" type="number" min = "1" value="1" style="width: 50px; display: inline-block; text-align: center; margin-left: 10px;"/></p>
+                    <p>Thành tiền: <span style="color: red;" id="order-price"></span></p>
+                    <button type="submit" class="btn-order" style="width: 100%;">đặt hàng</button>
+                    </div>
+            </form>`;
+
+
+        const close = document.querySelector('#confirm-close');
+        const order = document.querySelector('.btn-order');
+        const orderList = document.querySelector('#order-list');
+        const orderPrice = document.querySelector('#order-price');
+        const quantity = document.querySelector('.quantity');
+        var total = product.price;
+        orderPrice.textContent = product.price
+        quantity.onchange = function () {
+            total = product.price * quantity.value;
+            orderPrice.textContent = total;
+        }
+
+        orderList.textContent = product.name;
+
+
+        close.onclick = function () {
+            cover.classList.toggle('hidden');
+            form.innerHTML = "";
+        }
+
+        order.onclick = function () {
+            let name = document.querySelector('#name').value;
+            let phone = document.querySelector('#phone').value;
+            let location = document.querySelector('#location').value;
+            let orders = [`${product._id}:${quantity.value}`];
+            orders = orders.join();
+            fetch('/bill/add', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, phone, orders, location })
+            })
+                .then(() => {
+                    alert('đặt hàng thành công');
+                })
+
+            close.click();
+        }
+
+    }
+    orderNow.forEach((i) => {
+        i.onclick = () => buy({ _id: i.getAttribute('food-id'), name: i.getAttribute('food-name'), price: i.getAttribute('food-price') });
+    })
+
+    addToCart.forEach((i) => {
+        i.onclick = function () {
+            let cart = JSON.parse(localStorage.getItem('cart'));
+            if (cart.length>0){
+                let ok = 0;
+                let id = i.getAttribute('food-id');
+                let j=0;
+                for(j =0; j<cart.length; j++){
+                    if(cart[j]._id === id){
+                        ok=1;
+                        break;
+                    }
+                }
+                if(ok==0)
+                cart.push({ _id: id, name: i.getAttribute('food-name'), price: i.getAttribute('food-price') });
+                console.log(cart);
+                }
+            else{
+                cart = [];
+                cart.push({ _id: i.getAttribute('food-id'), name: i.getAttribute('food-name'), price: i.getAttribute('food-price') });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+    })
+</script>

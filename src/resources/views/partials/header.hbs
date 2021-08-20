@@ -1,0 +1,67 @@
+<div class="header-menu">
+  <div class="container">
+    <div class="navbar flex">
+      <div class="logo">
+        <img
+          src="https://image.similarpng.com/very-thumbnail/2020/08/Fresh-food-logo-design-on-transparent-background-PNG.png"
+          alt="">
+      </div>
+      <ul class="navbar-items flex">
+        <li class="navbar-item"><a class="link-item" href="/">Trang chủ</a></li>
+        <li class="navbar-item"><a class="link-item" href="/menu/tat-ca/1">Thực đơn</a></li>
+        <li class="navbar-item"><a class="link-item" href="#about">Thông tin</a></li>
+        <li class="navbar-item"><a class="link-item" href="/admin">Liên hệ</a></li>
+        <li class="navbar-item"><a class="link-item" href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+      </ul>
+      <ul class="bars_menu hidden">
+        <li class="bars_menu-item"><a class="bars_link-item" href="/">Trang chủ</a></li>
+        <li class="bars_menu-item"><a class="bars_link-item" href="/menu/tat-ca/1">Thực đơn</a></li>
+        <li class="bars_menu-item"><a class="bars_link-item" href="#about">Thông tin</a></li>
+        <li class="bars_menu-item"><a class="bars_link-item" href="/admin">Liên hệ</a></li>
+        <li class="bars_menu-item"><a class="bars_link-item" href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+      </ul>
+      <span id="btn-bars"><i class="fas fa-bars"></i></span>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  const menu = document.querySelector('.header-menu')
+  const linkMenu = document.getElementsByClassName('link-item')
+  const btnBars = document.querySelector('#btn-bars');
+  const barsMenu = document.querySelector('.bars_menu');
+  window.onscroll = function () {
+    if (window.scrollY >= menu.clientHeight) {
+      menu.style.backgroundColor = '#fff';
+      btnBars.style.color = '#111';
+      [...linkMenu].forEach(element => {
+        element.style.color = '#111';
+        element.onmouseover = () => element.style.color = 'gold';
+        element.onmouseout = () => element.style.color = '#111';
+      });
+    } else {
+      menu.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      btnBars.style.color = '#fff';
+      [...linkMenu].forEach(element => {
+        element.style.color = '#fff';
+        element.onmouseover = () => element.style.color = 'gold';
+        element.onmouseout = () => element.style.color = '#fff';
+      });
+    }
+  }
+
+  btnBars.onclick = function () {
+    barsMenu.classList.toggle('hidden');
+    this.classList.toggle('gray');
+  }
+
+  window.onresize = function () {
+    if(window.innerWidth >= 650 ){
+      barsMenu.classList.add('hidden');
+      btnBars.classList.remove('gray');
+    }
+  }
+  
+
+</script>

@@ -1,0 +1,249 @@
+<style>
+    .header-menu {
+        display: none;
+    }
+
+    .footer {
+        display: none;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+    }
+</style>
+<div class="wrapper">
+    <div class="containerAdmin">
+        <div class="admin">
+            <p>username: <span>abc</span></p>
+            <a href="/admin/logout" id="logout">Đăng xuất</a>
+        </div>
+        <div class="manager-list">
+            <a href="/admin" class="manager-item">Quản lý mặt hàng</a>
+            <a href="/admin/order" class="manager-item">Quản lý đơn hàng</a>
+        </div>
+    </div>
+
+    <div class="containerAdmin">
+        <div class="sidebars">
+        </div>
+        <div class="content">
+            <h2>Danh sách mặt hàng</h2>
+
+            <div class="navbar">
+                <button class="btn btn-green show-form" form="form-add" id="btn-add">Thêm sản phẩm</button>
+                <div class="search">
+                    <input type="text" placeholder="Tìm kiếm">
+                    <button class="btn" id="btn-search"><i class="fas fa-search"></i></button>
+                </div>
+                <label for="">Loại
+                    <select name="categories">
+                        <option value="1">Gà rán</option>
+                        <option value="1">bánh mỳ</option>
+                        <option value="1">cơm trộn</option>
+                    </select>
+                </label>
+            </div>
+            <div class="table-food">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>STT</td>
+                            <td>hình ảnh</td>
+                            <td>Tên</td>
+                            <td>Loại</td>
+                            <td>Giá</td>
+                            <td>Tình trạng</td>
+                            <td>Tùy chỉnh</td>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data}}
+                        <tr>
+                            <td>{{index @index}}</td>
+                            <td><img src="{{this.image}}" alt="" style="width: 100px"></td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.type}}</td>
+                            <td class="price">{{this.price}}</td>
+                            {{#if this.status}}
+                            <td class="txt-green">Còn hàng</td>
+                            {{else}}
+                            <td class="txt-red">Hết hàng</td>
+                            {{/if}}
+                            <td><button class="btn btn-update show-form" form="form-update" id-item="{{this._id}}">chỉnh
+                                    sửa</button><button class="btn btn-red btn-delete"
+                                    id-item="{{this._id}}">Xóa</button></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    async function postData(url = '', data = {}, method = 'POST') {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: method, // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    const sidebars = document.querySelector('.sidebars');
+
+    const btnAdd = document.querySelector('#btn-add');
+    const btnUpdate = document.querySelectorAll('.btn-update');
+    const btnDelete = document.querySelectorAll('.btn-delete');
+
+
+    window.onscroll = function () {
+        sidebars.style.top = this.scrollY +'px';
+    }
+
+    btnDelete.forEach((element) => {
+        element.onclick = function () {
+            let conf = confirm('xoa ha')
+            console.log(this.getAttribute('id-item'))
+            if (conf) {
+                postData('/admin/food/delete', { _id: this.getAttribute('id-item') }, 'DELETE');
+                location.reload();
+            }
+        }
+    })
+    btnUpdate.forEach((element) => {
+        element.onclick = async function () {
+            let id = this.getAttribute('id-item')
+            let form = this.getAttribute('form');
+
+            var x = await fetch(`admin/food/${id}`, {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            });
+            x.json().then((data) => {
+                console.log(data.name)
+                sidebars.innerHTML = `<div class="form">
+                <h2>Thông tin mặt hàng</h2>
+                <label>Tên mặt hàng:
+                    <input type="text" autocomplete="off" id="item-name" value = "${data.name}">
+                </label>
+                <label>Loại:
+                    <select name="item-type" id="item-type" >
+                        <option value="ga-ran-quay" ${data.type=='ga-ran-quay'? 'selected' : ''}>Gà rán - Quay</option>
+                        <option value="com-burger" ${data.type=='com-burger'? 'selected' : ''}>Cơm - Burger</option>
+                        <option value="thuc-an-nhe" ${data.type=='thuc-an-nhe'? 'selected' : ''}>Thức ăn nhẹ</option>
+                        <option value="trang-mieng-thuc-uong" ${data.type=='trang-mieng-thuc-uong'? 'selected' : ''}>Tráng miệng - Thức uống</option>
+                    </select>
+                </label>
+                <label>Link ảnh:
+                    <input type="text" autocomplete="off" id="item-image" value = "${data.image}">
+                </label>
+                <label>Miêu tả:
+                    <textarea name="description" id="item-description" cols="20" rows="5">"${data.description}"</textarea>
+                </label>
+                <label>Giá:
+                    <input type="number" min="0" name="price" autocomplete="off" id="item-price" value = "${data.price}">
+                </label>
+                <div class="form-btn">
+                    <button class="btn btn-red" id="cancel">Hủy</button>
+                    <button class="btn btn-green" id="update-product" id-Product = "${data._id}">Cập nhật</button>
+                </div>
+            </div>`;
+
+            let name = document.querySelector('#item-name');
+            let des = document.getElementById('item-description');
+            let imageLink = document.getElementById('item-image');
+            let price = document.getElementById('item-price');
+            let type = document.getElementById('item-type');
+            let update = document.getElementById('update-product');
+            let cancel = document.querySelector('#cancel');
+            cancel.onclick = function () {
+                sidebars.innerHTML = '';
+            }
+            update.onclick = function () {
+                postData('/admin/food/update', {_id: this.getAttribute('id-Product'), name: name.value, image: imageLink.value, description: des.value, price: price.value, type: type.value }, 'PUT');
+                name.value = "";
+                des.value = "";
+                imageLink.value = "";
+                price.value = "";
+            }
+            })
+
+
+            
+        }
+    })
+
+    btnAdd.addEventListener('click', () => {
+        sidebars.innerHTML = `<div class="form">
+                <h2>Thông tin mặt hàng</h2>
+                <label>Tên mặt hàng:
+                    <input type="text" autocomplete="off" id="item-name">
+                </label>
+                <label>Loại:
+                    <select name="item-type" id="item-type">
+                        <option value="ga-ran-quay">Gà rán - Quay</option>
+                        <option value="com-burger">Cơm - Burger</option>
+                        <option value="thuc-an-nhe">Thức ăn nhẹ</option>
+                        <option value="trang-mieng-thuc-uong">Tráng miệng - Thức uống</option>
+                    </select>
+                </label>
+                <label>Link ảnh:
+                    <input type="text" autocomplete="off" id="item-image">
+                </label>
+                <label>Miêu tả:
+                    <textarea name="description" id="item-description" cols="20" rows="5"></textarea>
+                </label>
+                <label>Giá:
+                    <input type="number" min="0" name="price" autocomplete="off" id="item-price">
+                </label>
+                <div class="form-btn">
+                    <button class="btn btn-red" id="cancel">Hủy</button>
+                    <button class="btn btn-green" id="add-product">Thêm sản phẩm</button>
+                </div>
+            </div>`;
+        let name = document.querySelector('#item-name');
+        let des = document.getElementById('item-description');
+        let imageLink = document.getElementById('item-image');
+        let price = document.getElementById('item-price');
+        let type = document.getElementById('item-type');
+        let submit = document.getElementById('add-product');
+        let cancel = document.querySelector('#cancel');
+        cancel.onclick = function () {
+            sidebars.innerHTML = '';
+        }
+        submit.onclick = function () {
+            postData('/admin/food/create', { name: name.value, image: imageLink.value, description: des.value, price: price.value, type: type.value }, 'POST');
+            name.value = "";
+            des.value = "";
+            imageLink.value = "";
+            price.value = "";
+        }
+    })
+</script>
+
+</div>
