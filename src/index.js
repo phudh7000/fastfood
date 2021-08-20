@@ -3,19 +3,13 @@ const handlebars = require('express-handlebars')
 const path = require('path')
 const route = require('./routers/index')
 const db = require('./app/config/db')
-const SiteControllers = require('./app/controllers/siteController')
-const siteController = require('./app/controllers/siteController')
 
 
 // Connect Database
 db.connect();
 
 const app = express()
-const port = 3000
-
-
-
-
+const port = 3000 || pr
 
 app.engine('hbs',handlebars({
   extname: '.hbs',
@@ -38,6 +32,5 @@ app.use(express.json());
 
 route(app);
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+app.listen(process.env.PORT || 3000);
+
