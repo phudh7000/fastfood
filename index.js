@@ -9,6 +9,7 @@ const db = require('./src/app/config/db')
 db.connect();
 
 const app = express()
+app.listen(process.env.PORT || 3000);
 
 app.engine('hbs',handlebars({
   extname: '.hbs',
@@ -31,5 +32,5 @@ app.use(express.json());
 
 route(app);
 
-app.listen(process.env.PORT || 3000);
+
 
