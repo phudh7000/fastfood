@@ -9,7 +9,6 @@ const db = require('./src/app/config/db')
 db.connect();
 
 const app = express()
-const port = 3000 || pr
 
 app.engine('hbs',handlebars({
   extname: '.hbs',
