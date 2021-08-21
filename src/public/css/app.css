@@ -185,7 +185,7 @@ div#background-image{
     line-height: 1.8;
 }
 .banner{
-    margin: 20px 0;
+    margin: 10px 0;
     position: relative;
     max-height: 300px;
     overflow: hidden;
@@ -228,7 +228,7 @@ div#background-image{
     display: flex;
     justify-content: space-between;
     max-width: 100%;
-    margin: 30px 20px 30px 20px;
+    margin: 30px 10px 30px 10px;
 }
 
 /* .list_items{
@@ -240,7 +240,7 @@ div#background-image{
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .list_item{
@@ -389,12 +389,8 @@ div#background-image{
         flex-direction: column;
         justify-content: center;
     }
-    .list_items{
-        width: 100%;
-        justify-content: space-between;
-    }
     .list_item{
-        width: 42%;
+        width: 41%;
     }
     .sideBar{
         display: none;
@@ -415,6 +411,23 @@ div#background-image{
 @media only screen and (max-width: 620px){
     .header-text p{
         display: none;
+    }
+
+}
+@media only screen and (max-width: 470px){
+    .header-text h1{
+        font-size: 16px;
+    }
+    .header-text button a{
+        padding: 10px;
+    }
+}
+@media only screen and (max-width: 430px){
+    .list_item{
+        width: 100%;
+    }
+    .header-text button{
+        margin-top: 5px;
     }
 }
 

@@ -93,10 +93,16 @@
             },
             body: JSON.stringify({ name, phone, orders, location })
         })
-            .then(() => {
-                alert('đặt hàng thành công');
-                localStorage.clear();
-            })
+            .then(dt => dt.json())
+                .then((x) => {
+                    if (x == 'ok'){
+                        alert('đặt hàng thành công');
+                        localStorage.clear();
+                    }
+                    else {
+                        alert('hãy điền đủ thông tin');
+                    }
+                })
     }
 
 

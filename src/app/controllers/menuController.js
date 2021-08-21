@@ -19,7 +19,7 @@ class menuController {
         let limit = 15;
         let skip = (page-1)*limit;
         let pages = [];
-        pageQuantity = parseInt(pageQuantity/limit +1);
+        pageQuantity = Math.ceil(pageQuantity/limit);
         for(let i =1; i<=pageQuantity; i++){
             pages.push(i);
         }
