@@ -410,7 +410,7 @@
     addToCart.forEach((i) => {
         i.onclick = function () {
             let cart = JSON.parse(localStorage.getItem('cart'));
-            if (cart.length > 0) {
+            if (cart && cart.length > 0) {
                 let ok = 0;
                 let id = i.getAttribute('food-id');
                 let j = 0;
