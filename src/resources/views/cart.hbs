@@ -23,6 +23,7 @@
     var cart = JSON.parse(localStorage.getItem('cart'));
     var list = [];
     var total = 0;
+    if(cart && cart.length>0)
     cart.forEach((item) => {
         total += +item.price;
         list.push(`<p style="position: relative; line-height: 2;"><span id="order-list">${item.name} </span><span class="price">${item.price}đ</span>
@@ -92,10 +93,16 @@
             },
             body: JSON.stringify({ name, phone, orders, location })
         })
-            .then(() => {
-                alert('đặt hàng thành công');
-                localStorage.clear();
-            })
+            .then(dt => dt.json())
+                .then((x) => {
+                    if (x == 'ok'){
+                        alert('đặt hàng thành công');
+                        localStorage.clear();
+                    }
+                    else {
+                        alert('hãy điền đủ thông tin');
+                    }
+                })
     }
 
 
