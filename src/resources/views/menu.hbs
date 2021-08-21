@@ -344,7 +344,7 @@
         cover.classList.toggle('hidden');
 
         form.innerHTML =
-            `<form action="/menu">
+            `
                     <div class="confirm-form" style="display: flex; flex-direction: column; width: 450px; padding: 30px 20px 5px 20px; position: fixed; z-index: 5; top: 50%; left: 50%; transform: translate(-50%,-50%); background-color: #fff;">
                     <button id = "confirm-close" style="width: 20px; position: absolute; right: 5px; top: 5px;">x</button>
                     <input type="text" id = "name" required minlength="8" autocomplete="off" placeholder="Họ tên" style=" line-height: 1.8; margin: 5px 0;">
@@ -354,7 +354,7 @@
                     <p>Thành tiền: <span style="color: red;" id="order-price"></span></p>
                     <button type="submit" class="btn-order" style="width: 100%;">đặt hàng</button>
                     </div>
-            </form>`;
+            `;
 
 
         const close = document.querySelector('#confirm-close');
@@ -390,8 +390,13 @@
                 },
                 body: JSON.stringify({ name, phone, orders, location })
             })
-                .then(() => {
-                    alert('đặt hàng thành công');
+                .then(dt => dt.json())
+                .then((x) => {
+                    if (x == 'ok')
+                        alert('đặt hàng thành công');
+                    else {
+                        alert('hãy điền đủ thông tin');
+                    }
                 })
 
             close.click();
@@ -405,21 +410,21 @@
     addToCart.forEach((i) => {
         i.onclick = function () {
             let cart = JSON.parse(localStorage.getItem('cart'));
-            if (cart.length>0){
+            if (cart.length > 0) {
                 let ok = 0;
                 let id = i.getAttribute('food-id');
-                let j=0;
-                for(j =0; j<cart.length; j++){
-                    if(cart[j]._id === id){
-                        ok=1;
+                let j = 0;
+                for (j = 0; j < cart.length; j++) {
+                    if (cart[j]._id === id) {
+                        ok = 1;
                         break;
                     }
                 }
-                if(ok==0)
-                cart.push({ _id: id, name: i.getAttribute('food-name'), price: i.getAttribute('food-price') });
+                if (ok == 0)
+                    cart.push({ _id: id, name: i.getAttribute('food-name'), price: i.getAttribute('food-price') });
                 console.log(cart);
-                }
-            else{
+            }
+            else {
                 cart = [];
                 cart.push({ _id: i.getAttribute('food-id'), name: i.getAttribute('food-name'), price: i.getAttribute('food-price') });
             }

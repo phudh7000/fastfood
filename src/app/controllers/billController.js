@@ -39,6 +39,9 @@ class NewsControllers {
         .then((rs)=>{
             res.status(200).json('ok');
         })
+        .catch(()=>{
+            res.status(404).json('failed');
+        })
     }
 }
 
